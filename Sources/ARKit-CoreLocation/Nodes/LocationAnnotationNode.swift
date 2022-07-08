@@ -46,8 +46,22 @@ open class LocationAnnotationNode: LocationNode {
     /// - Parameters:
     ///   - location:The location of the node in the world.
     ///   - view:The view to display at the specified location.
-    public convenience init(location: CLLocation?, view: UIView) {
-        self.init(location: location, image: view.image)
+    public init(location: CLLocation?, view: UIView) {
+        let plane = SCNPlane(width: view.frame.size.width / 100, height: view.frame.size.height / 100)
+        plane.firstMaterial?.diffuse.contents = view
+        plane.firstMaterial?.lightingModel = .constant
+
+        annotationNode = AnnotationNode(view: view, image: nil)
+        annotationNode.geometry = plane
+        annotationNode.removeFlicker()
+
+        super.init(location: location)
+
+        let billboardConstraint = SCNBillboardConstraint()
+        billboardConstraint.freeAxes = SCNBillboardAxis.Y
+        constraints = [billboardConstraint]
+
+        addChildNode(annotationNode)
     }
 
     public init(location: CLLocation?, layer: CALayer) {

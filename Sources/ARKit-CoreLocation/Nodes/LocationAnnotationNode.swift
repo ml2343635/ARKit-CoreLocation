@@ -20,12 +20,12 @@ open class LocationAnnotationNode: LocationNode {
     /// use a negative value.
     public var annotationHeightAdjustmentFactor = 1.1
 
-    public init(location: CLLocation?, image: UIImage) {
+    public init(location: CLLocation?, image: UIImage, tag: Int? = nil) {
         let plane = SCNPlane(width: image.size.width / 100, height: image.size.height / 100)
         plane.firstMaterial?.diffuse.contents = image
         plane.firstMaterial?.lightingModel = .constant
 
-        annotationNode = AnnotationNode(view: nil, image: image)
+        annotationNode = AnnotationNode(view: nil, image: image, tag: tag)
         annotationNode.geometry = plane
         annotationNode.removeFlicker()
 
@@ -46,12 +46,12 @@ open class LocationAnnotationNode: LocationNode {
     /// - Parameters:
     ///   - location:The location of the node in the world.
     ///   - view:The view to display at the specified location.
-    public init(location: CLLocation?, view: UIView) {
+    public init(location: CLLocation?, view: UIView, tag: Int? = nil) {
         let plane = SCNPlane(width: view.frame.size.width / 100, height: view.frame.size.height / 100)
         plane.firstMaterial?.diffuse.contents = view
         plane.firstMaterial?.lightingModel = .constant
 
-        annotationNode = AnnotationNode(view: view, image: nil)
+        annotationNode = AnnotationNode(view: view, image: nil, tag: tag)
         annotationNode.geometry = plane
         annotationNode.removeFlicker()
 
@@ -64,12 +64,12 @@ open class LocationAnnotationNode: LocationNode {
         addChildNode(annotationNode)
     }
 
-    public init(location: CLLocation?, layer: CALayer) {
+    public init(location: CLLocation?, layer: CALayer, tag: Int? = nil) {
         let plane = SCNPlane(width: layer.bounds.size.width / 100, height: layer.bounds.size.height / 100)
         plane.firstMaterial?.diffuse.contents = layer
         plane.firstMaterial?.lightingModel = .constant
 
-        annotationNode = AnnotationNode(view: nil, image: nil, layer: layer)
+        annotationNode = AnnotationNode(view: nil, image: nil, layer: layer, tag: tag)
         annotationNode.geometry = plane
         annotationNode.removeFlicker()
 
